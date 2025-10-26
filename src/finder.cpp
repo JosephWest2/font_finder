@@ -100,5 +100,8 @@ path find_font(string name, string style, R&& search_directories) {
     throw std::runtime_error(error_message);
 }
 
-path find_font(string name, string style) { return find_font(name, style, vector<string>{}); }
+path find_font(string name, string style) { return find_font(name, style, std::vector<string>{}); }
+path find_font(string name, string style, std::initializer_list<string_view> search_directories) {
+    return find_font(name, style, std::vector<string_view>(search_directories));
+}
 }  // namespace font_finder
