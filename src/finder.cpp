@@ -14,12 +14,11 @@ using std::filesystem::directory_iterator;
 using std::unordered_set;
 using std::string;
 using std::transform;
+using std::filesystem::path;
 
 namespace font_finder {
 
-template <typename R>
-    requires input_range<R> && convertible_to<range_reference_t<R>, string_view>
-path find_font(string name, string style, R&& search_directories) {
+std::filesystem::path find_font(std::string name, std::string style, const std::vector<std::filesystem::path>& search_directories) {
 
     vector<path> directories{};
     for (auto& directory : search_directories) {
@@ -100,8 +99,4 @@ path find_font(string name, string style, R&& search_directories) {
     throw std::runtime_error(error_message);
 }
 
-path find_font(string name, string style) { return find_font(name, style, std::vector<string>{}); }
-path find_font(string name, string style, std::initializer_list<string_view> search_directories) {
-    return find_font(name, style, std::vector<string_view>(search_directories));
-}
 }  // namespace font_finder
